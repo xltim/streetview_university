@@ -7,20 +7,15 @@ import numpy as np
 from plotly.graph_objects import Scattermapbox, Figure
 import plotly.io as pio
 
-# Set the default renderer to 'browser' to ensure it opens in the browser
 pio.renderers.default = 'browser'
 
-# Replace 'YOUR_API_KEY' with your actual API key
 API_KEY = 'AIzaSyAw2UfZPrYZgrEX3XT6wNkHzo8F_vcBUzs'
 gmaps = googlemaps.Client(key=API_KEY)
 
-# Create a directed graph
 graph = nx.DiGraph()
-# Add nodes with coordinates (latitude, longitude)
 graph.add_node('Gummersbach TH Köln', y=51.0300, x=7.5650)  # Coordinates for Gummersbach TH Köln
 graph.add_node('Berlin', y=52.5200, x=13.4050)              # Coordinates for Berlin
 
-# Add edges to the graph (source, destination, weight)
 graph.add_edge('Gummersbach TH Köln', 'Berlin', weight=1.0)  # Weight can be arbitrary for this example
 
 def shortest_path(graph, start, end):
@@ -44,7 +39,6 @@ def get_street_view_image(location):
         print(f"Error fetching street view image for {location}: {response.status_code}")
         return None
 
-# Iterate over the nodes in the shortest path and get Street View images
 for node in path:
     location = f"{graph.nodes[node]['y']},{graph.nodes[node]['x']}"
     print(f"Street view for {node}: {location}")
@@ -112,7 +106,6 @@ def get_long_lat_from_path(polyline_points):
     lat, long = zip(*polyline_points)
     return long, lat
 
-# Function to plot latitude and longitude on a map using Plotly
 def plot_lat_long(lat, long, origin_point, destination_point):
     fig = Figure(Scattermapbox(
         name="Path",
@@ -142,7 +135,6 @@ def plot_lat_long(lat, long, origin_point, destination_point):
     fig.update_layout(margin={"r": 0, "t": 0, "l": 0, "b": 0})
     fig.show()
 
-# Plot the shortest path on the map using realistic route
 origin_point = (graph.nodes[start]['y'], graph.nodes[start]['x'])
 destination_point = (graph.nodes[end]['y'], graph.nodes[end]['x'])
 print(f"Origin point: {origin_point}")
